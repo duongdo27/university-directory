@@ -46,3 +46,26 @@ class Student(models.Model):
 
     def __str__(self):
         return "{}, {}".format(str(self.last_name), str(self.first_name))
+
+
+LETTER_GRADES = (
+    (4, "A"),
+    (3, "B"),
+    (2, "C"),
+    (1, "D"),
+    (0, "F"),
+)
+
+
+class Grade(models.Model):
+    grade = models.IntegerField(choices=LETTER_GRADES)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['student', 'course'],
+                name='unique_student_course',
+            )
+        ]
