@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="uk-heading-small">Departments</h1>
+<h1 class="uk-heading-small">Departments
+    <a class="uk-align-right" uk-tooltip="Create" href="{% url 'department_create' %}"><span uk-icon="plus-circle"></span></a>
+</h1>
 
 <ul class="uk-list uk-list-divider">
 {% for department in departments %}

@@ -11,4 +11,5 @@ urlpatterns = [
     path('department_list', views.DepartmentListView.as_view(), name='department_list'),
     path('department/<int:pk>', views.DepartmentDetailView.as_view(), name='department_detail'),
     path('department_update/<int:pk>', views.DepartmentUpdateView.as_view(), name='department_update'),
+    path('department_create', views.DepartmentCreateView.as_view(), name='department_create'),
 ]
