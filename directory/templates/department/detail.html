@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="uk-heading-small">Department {{ department }}</h1>
+<h1 class="uk-heading-small">
+    Department {{ department }}
+    <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'department_update' department.id %}"><span uk-icon="file-edit"></span></a>
+</h1>
+
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
 {% for professor in department.professor_set.all %}
     <div>

@@ -1,8 +1,11 @@
 from django.views.generic import TemplateView
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 
 from directory.models import Department
+from directory.forms import DepartmentForm
 
 
 class IndexView(TemplateView):
@@ -23,4 +26,11 @@ class DepartmentDetailView(DetailView):
     model = Department
 
 
+class DepartmentUpdateView(UpdateView):
+    template_name = "department/update.html"
+    context_object_name = 'department'
+    model = Department
+    form_class = DepartmentForm
 
+    def get_success_url(self):
+        return reverse_lazy('department_detail', kwargs={'pk': self.object.id})
