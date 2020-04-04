@@ -19,3 +19,12 @@ class Professor(models.Model):
 
     def __str__(self):
         return "{}, {}".format(str(self.last_name), str(self.first_name))
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=10, unique=True)
+    description = models.CharField(max_length=50)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.name)
