@@ -3,6 +3,7 @@
 <h1 class="uk-heading-small">
     Department {{ department }}
     <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'department_update' department.id %}"><span uk-icon="file-edit"></span></a>
+    <a class="uk-align-right" uk-tooltip="Delete" href="{% url 'department_delete' department.id %}"><span uk-icon="minus-circle"></span></a>
 </h1>
 
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
