@@ -14,12 +14,19 @@ class DepartmentAdmin(admin.ModelAdmin):
 @admin.register(Professor)
 class ProfessorAdmin(admin.ModelAdmin):
     list_display = ("__str__", "phone", "email", "department")
+    list_filter = ("department",)
+    search_fields = ("first_name", "last_name", "phone", "email")
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("name", "professor")
+    list_filter = ("professor__department",)
+    search_fields = ("name", "professor__first_name", "professor__last_name")
+
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ("__str__", "email", "year")
+    list_filter = ("year",)
+    search_fields = ("first_name", "last_name", "email")
