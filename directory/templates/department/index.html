@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">Departments</h1>
+
+<ul class="uk-list uk-list-divider">
+{% for department in departments %}
+    <li>{{ department }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

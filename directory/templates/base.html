@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>University Directory</title>
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+  <meta name="description" content="University Directory">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.3/dist/css/uikit.min.css" />
+
+  <!-- UIkit JS -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.3/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.3/dist/js/uikit-icons.min.js"></script>
+
+  <!-- Jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+      <ul class="uk-navbar-nav">
+        <li class="uk-active">
+          <a href="{% url 'index' %}">
+            <span uk-icon="home"></span>&nbsp;Home
+          </a>
+        </li>
+        <li class="uk-active">
+          <a href="{% url 'department_list' %}">
+            <span uk-icon="thumbnails"></span>&nbsp;Departments
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="uk-navbar-right">
+      <ul class="uk-navbar-nav">
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container uk-padding">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+</body>
+</html>
