@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">Department {{ department }}</h1>
+<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+{% for professor in department.professor_set.all %}
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">{{ professor }}</h3>
+            <p>
+                <span uk-icon="mail"></span>
+                <a href="mailto:{{ professor.email }}">{{ professor.email }}</a>
+            </p>
+            <p>
+                <span uk-icon="receiver"></span>
+                <a href="tel:{{ professor.phone }}">{{ professor.phone }}</a>
+            </p>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

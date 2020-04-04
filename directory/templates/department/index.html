@@ -4,7 +4,9 @@
 
 <ul class="uk-list uk-list-divider">
 {% for department in departments %}
-    <li>{{ department }}</li>
+    <li>
+        <a href="{% url 'department_detail' department.id %}">{{ department }}</a>
+    </li>
 {% endfor %}
 </ul>
 {% endblock %}
