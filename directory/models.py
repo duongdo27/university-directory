@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django import forms
 
 
 class Department(models.Model):
@@ -28,3 +29,21 @@ class Course(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+STUDENT_YEARS = (
+    ("1", "Freshman"),
+    ("2", "Sophomore"),
+    ("3", "Junior"),
+    ("4", "Senior"),
+)
+
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField(max_length=30, unique=True)
+    year = models.CharField(max_length=20, choices=STUDENT_YEARS)
+
+    def __str__(self):
+        return "{}, {}".format(str(self.last_name), str(self.first_name))
