@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">
+    Course {{ course }}
+    <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'course_update' course.id %}"><span uk-icon="file-edit"></span></a>
+    <a class="uk-align-right" uk-tooltip="Delete" href="{% url 'course_delete' course.id %}"><span uk-icon="minus-circle"></span></a>
+</h1>
+
+<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+{% for grade in course.grades %}
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">{{ grade.student }} <span class="uk-badge uk-align-right">{{ grade }}</span></h3>
+            <p>
+                <span uk-icon="mail"></span> {{ grade.student.email }}
+            </p>
+            <p>
+                <span uk-icon="history"></span> {{ grade.student.year }}
+            </p>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

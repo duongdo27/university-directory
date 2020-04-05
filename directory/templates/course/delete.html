@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">Delete Course</h1>
+{% url 'course_detail' course.id as cancel_url %}
+{% include 'delete_form.html' with form=form cancel_url=cancel_url %}
+{% endblock %}

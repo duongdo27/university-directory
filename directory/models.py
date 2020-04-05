@@ -28,13 +28,17 @@ class Course(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+    @property
+    def grades(self):
+        return Grade.objects.filter(course=self)
 
 
 STUDENT_YEARS = (
-    ("1", "Freshman"),
-    ("2", "Sophomore"),
-    ("3", "Junior"),
-    ("4", "Senior"),
+    ("Freshman", "Freshman"),
+    ("Sophomore", "Sophomore"),
+    ("Junior", "Junior"),
+    ("Senior", "Senior"),
 )
 
 
@@ -49,16 +53,16 @@ class Student(models.Model):
 
 
 LETTER_GRADES = (
-    (4, "A"),
-    (3, "B"),
-    (2, "C"),
-    (1, "D"),
-    (0, "F"),
+    ("A", "A"),
+    ("B", "B"),
+    ("C", "C"),
+    ("D", "D"),
+    ("F", "F"),
 )
 
 
 class Grade(models.Model):
-    grade = models.IntegerField(choices=LETTER_GRADES)
+    grade = models.CharField(max_length=2, choices=LETTER_GRADES)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
@@ -69,3 +73,6 @@ class Grade(models.Model):
                 name='unique_student_course',
             )
         ]
+
+    def __str__(self):
+        return self.grade

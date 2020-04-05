@@ -10,7 +10,7 @@
 {% for course in professor.course_set.all %}
     <div>
         <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">{{ course }}</h3>
+            <h3 class="uk-card-title"><a href="{% url 'course_detail' course.id %}">{{ course }}</a></h3>
             <p>
                 <span uk-icon="file-text"></span>  {{ course.description }}
             </p>

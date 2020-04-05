@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">Courses
+    <a class="uk-align-right" uk-tooltip="Create" href="{% url 'course_create' %}"><span uk-icon="plus-circle"></span></a>
+</h1>
+
+<ul class="uk-list uk-list-divider">
+{% for course in courses %}
+    <li>
+        <a href="{% url 'course_detail' course.id %}">{{ course }}</a>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
