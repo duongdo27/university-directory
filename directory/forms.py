@@ -3,6 +3,7 @@ from django import forms
 from directory.models import Department
 from directory.models import Professor
 from directory.models import Course
+from directory.models import Student
 
 
 class DepartmentForm(forms.ModelForm):
@@ -39,3 +40,16 @@ class CourseForm(forms.ModelForm):
         self.fields['name'].widget.attrs['class'] = 'uk-input'
         self.fields['description'].widget.attrs['class'] = 'uk-input'
         self.fields['professor'].widget.attrs['class'] = 'uk-select'
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['first_name', 'last_name', 'email', 'year']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs['class'] = 'uk-input'
+        self.fields['last_name'].widget.attrs['class'] = 'uk-input'
+        self.fields['email'].widget.attrs['class'] = 'uk-input'
+        self.fields['year'].widget.attrs['class'] = 'uk-select'

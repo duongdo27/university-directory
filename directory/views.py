@@ -12,6 +12,8 @@ from directory.models import Professor
 from directory.forms import ProfessorForm
 from directory.models import Course
 from directory.forms import CourseForm
+from directory.models import Student
+from directory.forms import StudentForm
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -129,3 +131,41 @@ class CourseDeleteView(DeleteView):
     template_name = "course/delete.html"
     model = Course
     success_url = reverse_lazy('course_list')
+
+
+class StudentListView(ListView):
+    template_name = "student/index.html"
+    context_object_name = 'students'
+
+    def get_queryset(self):
+        return Student.objects.all().order_by('last_name')
+
+
+class StudentDetailView(DetailView):
+    template_name = "student/detail.html"
+    context_object_name = 'student'
+    model = Student
+
+
+class StudentUpdateView(UpdateView):
+    template_name = "student/update.html"
+    model = Student
+    form_class = StudentForm
+
+    def get_success_url(self):
+        return reverse_lazy('student_detail', kwargs={'pk': self.object.id})
+
+
+class StudentCreateView(CreateView):
+    template_name = "student/create.html"
+    model = Student
+    form_class = StudentForm
+
+    def get_success_url(self):
+        return reverse_lazy('student_detail', kwargs={'pk': self.object.id})
+
+
+class StudentDeleteView(DeleteView):
+    template_name = "student/delete.html"
+    model = Student
+    success_url = reverse_lazy('student_list')

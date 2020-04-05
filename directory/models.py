@@ -51,6 +51,10 @@ class Student(models.Model):
     def __str__(self):
         return "{}, {}".format(str(self.last_name), str(self.first_name))
 
+    @property
+    def grades(self):
+        return Grade.objects.filter(student=self)
+
 
 LETTER_GRADES = (
     ("A", "A"),

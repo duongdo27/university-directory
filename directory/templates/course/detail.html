@@ -10,7 +10,7 @@
 {% for grade in course.grades %}
     <div>
         <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">{{ grade.student }} <span class="uk-badge uk-align-right">{{ grade }}</span></h3>
+            <h3 class="uk-card-title"><a href="{% url 'student_detail' grade.student.id %}">{{ grade.student }} </a> <span class="uk-badge uk-align-right">{{ grade }}</span></h3>
             <p>
                 <span uk-icon="mail"></span> {{ grade.student.email }}
             </p>
