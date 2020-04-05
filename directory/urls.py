@@ -28,5 +28,7 @@ urlpatterns = [
     path('student_update/<int:pk>', views.StudentUpdateView.as_view(), name='student_update'),
     path('student_create', views.StudentCreateView.as_view(), name='student_create'),
     path('student_delete/<int:pk>', views.StudentDeleteView.as_view(), name='student_delete'),
-
+    path('grade_update/<int:pk>', views.GradeUpdateView.as_view(), name='grade_update'),
+    path('grade_create', views.GradeCreateView.as_view(), name='grade_create'),
+    path('grade_delete/<int:pk>', views.GradeDeleteView.as_view(), name='grade_delete'),
 ]

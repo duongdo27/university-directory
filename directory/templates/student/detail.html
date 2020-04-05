@@ -2,26 +2,35 @@
 {% block content %}
 <h1 class="uk-heading-small">
     Student {{ student }}
-    <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'student_update' student.id %}"><span uk-icon="file-edit"></span></a>
-    <a class="uk-align-right" uk-tooltip="Delete" href="{% url 'student_delete' student.id %}"><span uk-icon="minus-circle"></span></a>
+    <a class="uk-align-right" uk-tooltip="Edit Student" href="{% url 'student_update' student.id %}"><span uk-icon="file-edit"></span></a>
+    <a class="uk-align-right" uk-tooltip="Delete Student" href="{% url 'student_delete' student.id %}"><span uk-icon="minus-circle"></span></a>
 </h1>
+<h2><span uk-icon="mail"></span> {{ student.email }}</h2>
+<h2><span uk-icon="history"></span> {{ student.year }}</h2>
 
-<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Grade</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 {% for grade in student.grades %}
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">{{ grade.student }} <span class="uk-badge uk-align-right">{{ grade }}</span></h3>
-            <p>
-                <span uk-icon="mail"></span> {{ grade.student.email }}
-            </p>
-            <p>
-                <span uk-icon="history"></span> {{ grade.student.year }}
-            </p>
-            <p>
-                <span uk-icon="file-text"></span> {{ grade.course.name }}
-            </p>
-        </div>
-    </div>
+        <tr>
+            <td>{{ grade.course.name }}</td>
+            <td>{{ grade }}</td>
+            <td><a uk-tooltip="Edit Grade" href="{% url 'grade_update' grade.student.id %}"><span uk-icon="file-edit"></span></a></td>
+            <td><a uk-tooltip="Delete Grade" href="{% url 'grade_delete' grade.student.id %}"><span uk-icon="minus-circle"></span></a></td>
+        </tr>
 {% endfor %}
-</div>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><a uk-tooltip="Create Grade" href="{% url 'grade_create' %}"><span uk-icon="plus-circle"></span></a></td>
+        </tr>
+    </tfoot>
+</table>
 {% endblock %}

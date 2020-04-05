@@ -4,6 +4,7 @@ from directory.models import Department
 from directory.models import Professor
 from directory.models import Course
 from directory.models import Student
+from directory.models import Grade
 
 
 class DepartmentForm(forms.ModelForm):
@@ -53,3 +54,15 @@ class StudentForm(forms.ModelForm):
         self.fields['last_name'].widget.attrs['class'] = 'uk-input'
         self.fields['email'].widget.attrs['class'] = 'uk-input'
         self.fields['year'].widget.attrs['class'] = 'uk-select'
+
+
+class GradeForm(forms.ModelForm):
+    class Meta:
+        model = Grade
+        fields = ['grade', 'student', 'course']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['grade'].widget.attrs['class'] = 'uk-input'
+        self.fields['student'].widget.attrs['class'] = 'uk-select'
+        self.fields['course'].widget.attrs['class'] = 'uk-select'
