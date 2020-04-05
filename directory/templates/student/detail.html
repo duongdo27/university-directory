@@ -22,8 +22,8 @@
         <tr>
             <td>{{ grade.course.name }}</td>
             <td>{{ grade }}</td>
-            <td><a uk-tooltip="Edit Grade" href="{% url 'grade_update' grade.student.id %}"><span uk-icon="file-edit"></span></a></td>
-            <td><a uk-tooltip="Delete Grade" href="{% url 'grade_delete' grade.student.id %}"><span uk-icon="minus-circle"></span></a></td>
+            <td><a uk-tooltip="Edit Grade" href="{% url 'grade_update' grade.id %}"><span uk-icon="file-edit"></span></a></td>
+            <td><a uk-tooltip="Delete Grade" href="{% url 'grade_delete' grade.id %}"><span uk-icon="minus-circle"></span></a></td>
         </tr>
 {% endfor %}
     </tbody>
