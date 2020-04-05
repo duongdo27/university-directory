@@ -56,7 +56,18 @@ class StudentForm(forms.ModelForm):
         self.fields['year'].widget.attrs['class'] = 'uk-select'
 
 
-class GradeForm(forms.ModelForm):
+class GradeCreateForm(forms.ModelForm):
+    class Meta:
+        model = Grade
+        fields = ['grade', 'student', 'course']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['grade'].widget.attrs['class'] = 'uk-input'
+        self.fields['course'].widget.attrs['class'] = 'uk-select'
+        self.fields['student'].widget = forms.HiddenInput()
+
+class GradeUpdateForm(forms.ModelForm):
     class Meta:
         model = Grade
         fields = ['grade', 'student', 'course']
@@ -66,3 +77,5 @@ class GradeForm(forms.ModelForm):
         self.fields['grade'].widget.attrs['class'] = 'uk-input'
         self.fields['student'].widget.attrs['class'] = 'uk-select'
         self.fields['course'].widget.attrs['class'] = 'uk-select'
+        self.fields['student'].disabled = True
+        self.fields['course'].disabled = True

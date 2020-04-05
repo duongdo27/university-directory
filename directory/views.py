@@ -5,6 +5,7 @@ from django.views.generic import UpdateView
 from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 from directory.models import Department
 from directory.forms import DepartmentForm
@@ -15,7 +16,8 @@ from directory.forms import CourseForm
 from directory.models import Student
 from directory.forms import StudentForm
 from directory.models import Grade
-from directory.forms import GradeForm
+from directory.forms import GradeCreateForm
+from directory.forms import GradeUpdateForm
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -176,7 +178,7 @@ class StudentDeleteView(DeleteView):
 class GradeUpdateView(UpdateView):
     template_name = "grade/update.html"
     model = Grade
-    form_class = GradeForm
+    form_class = GradeUpdateForm
 
     def get_success_url(self):
         return reverse_lazy('student_detail', kwargs={'pk': self.object.student.id})
@@ -185,7 +187,17 @@ class GradeUpdateView(UpdateView):
 class GradeCreateView(CreateView):
     template_name = "grade/create.html"
     model = Grade
-    form_class = GradeForm
+    form_class = GradeCreateForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['student'] = get_object_or_404(Student, pk=self.kwargs["student_id"])
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context  = super().get_context_data(**kwargs)
+        context['student'] = get_object_or_404(Student, pk=self.kwargs["student_id"])
+        return context
 
     def get_success_url(self):
         return reverse_lazy('student_detail', kwargs={'pk': self.object.student.id})
