@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="uk-heading-small">
+    Professor {{ professor }}
+    <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'professor_update' professor.id %}"><span uk-icon="file-edit"></span></a>
+    <a class="uk-align-right" uk-tooltip="Delete" href="{% url 'professor_delete' professor.id %}"><span uk-icon="minus-circle"></span></a>
+</h1>
+
+<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+{% for course in professor.course_set.all %}
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">{{ course }}</h3>
+            <p>
+                <span uk-icon="file-text"></span>  {{ course.description }}
+            </p>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

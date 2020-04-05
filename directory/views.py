@@ -8,7 +8,8 @@ from django.urls import reverse_lazy
 
 from directory.models import Department
 from directory.forms import DepartmentForm
-
+from directory.models import Professor
+from directory.forms import ProfessorForm
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -50,3 +51,41 @@ class DepartmentDeleteView(DeleteView):
     template_name = "department/delete.html"
     model = Department
     success_url = reverse_lazy('department_list')
+
+
+class ProfessorListView(ListView):
+    template_name = "professor/index.html"
+    context_object_name = 'professors'
+
+    def get_queryset(self):
+        return Professor.objects.all().order_by('last_name')
+
+
+class ProfessorDetailView(DetailView):
+    template_name = "professor/detail.html"
+    context_object_name = 'professor'
+    model = Professor
+
+
+class ProfessorUpdateView(UpdateView):
+    template_name = "professor/update.html"
+    model = Professor
+    form_class = ProfessorForm
+
+    def get_success_url(self):
+        return reverse_lazy('professor_detail', kwargs={'pk': self.object.id})
+
+
+class ProfessorCreateView(CreateView):
+    template_name = "professor/create.html"
+    model = Professor
+    form_class = ProfessorForm
+
+    def get_success_url(self):
+        return reverse_lazy('professor_detail', kwargs={'pk': self.object.id})
+
+
+class ProfessorDeleteView(DeleteView):
+    template_name = "professor/delete.html"
+    model = Professor
+    success_url = reverse_lazy('professor_list')

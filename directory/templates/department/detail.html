@@ -10,7 +10,7 @@
 {% for professor in department.professor_set.all %}
     <div>
         <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">{{ professor }}</h3>
+            <h3 class="uk-card-title"><a href="{% url 'professor_detail' professor.id %}">{{ professor }}</a></h3>
             <p>
                 <span uk-icon="mail"></span>
                 <a href="mailto:{{ professor.email }}">{{ professor.email }}</a>
