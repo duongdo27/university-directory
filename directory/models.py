@@ -1,20 +1,34 @@
+"""
+Collection of all models used in university directory app
+"""
+# pylint: disable=too-few-public-methods
+# pylint: disable=no-member
+
 from django.db import models
 from django.core.validators import RegexValidator
 
 
 class Department(models.Model):
+    """
+    Model for a department
+    """
     name = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return str(self.name)
 
 
-
 class Professor(models.Model):
+    """
+    Model for a professor
+    """
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=30, unique=True)
-    phone = models.CharField(max_length=10, unique=True, validators=[RegexValidator(r'^[0-9]+$', 'Enter a valid phone number')])
+    phone = models.CharField(
+        max_length=10,
+        unique=True,
+        validators=[RegexValidator(r'^[0-9]+$', 'Enter a valid phone number')])
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -22,15 +36,21 @@ class Professor(models.Model):
 
 
 class Course(models.Model):
+    """
+    Model for a course
+    """
     name = models.CharField(max_length=10, unique=True)
     description = models.CharField(max_length=50)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
-    
+
     @property
     def grades(self):
+        """
+        :return: All the course
+        """
         return Grade.objects.filter(course=self)
 
 
@@ -43,6 +63,9 @@ STUDENT_YEARS = (
 
 
 class Student(models.Model):
+    """
+    Model for a student
+    """
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=30, unique=True)
@@ -53,6 +76,9 @@ class Student(models.Model):
 
     @property
     def grades(self):
+        """
+        :return: all students
+        """
         return Grade.objects.filter(student=self)
 
 
@@ -66,11 +92,17 @@ LETTER_GRADES = (
 
 
 class Grade(models.Model):
+    """
+    Model for a grade
+    """
     grade = models.CharField(max_length=2, choices=LETTER_GRADES)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     class Meta:
+        """
+        Constraint for grade
+        """
         constraints = [
             models.UniqueConstraint(
                 fields=['student', 'course'],

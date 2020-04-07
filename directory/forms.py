@@ -1,14 +1,26 @@
+"""
+Collections of all forms used in the university directory app
+"""
+# pylint: disable=too-few-public-methods
+
 from django import forms
 
 from directory.models import Department
-from directory.models import Professor
 from directory.models import Course
 from directory.models import Student
 from directory.models import Grade
+from directory.models import Professor
 
 
 class DepartmentForm(forms.ModelForm):
+    """
+    Form to create new department
+    """
+
     class Meta:
+        """
+        Meta data for department
+        """
         model = Department
         fields = ['name']
 
@@ -18,7 +30,14 @@ class DepartmentForm(forms.ModelForm):
 
 
 class ProfessorForm(forms.ModelForm):
+    """
+    Form to create new professor
+    """
+
     class Meta:
+        """
+        Meta data for professor
+        """
         model = Professor
         fields = ['first_name', 'last_name', 'email', 'phone', 'department']
 
@@ -32,7 +51,14 @@ class ProfessorForm(forms.ModelForm):
 
 
 class CourseForm(forms.ModelForm):
+    """
+    Form to create new course
+    """
+
     class Meta:
+        """
+        Meta data for course
+        """
         model = Course
         fields = ['name', 'description', 'professor']
 
@@ -44,7 +70,14 @@ class CourseForm(forms.ModelForm):
 
 
 class StudentForm(forms.ModelForm):
+    """
+    Form to create new student
+    """
+
     class Meta:
+        """
+        Meta data for student
+        """
         model = Student
         fields = ['first_name', 'last_name', 'email', 'year']
 
@@ -57,7 +90,14 @@ class StudentForm(forms.ModelForm):
 
 
 class GradeCreateForm(forms.ModelForm):
+    """
+    Form to create new grade
+    """
+
     class Meta:
+        """
+        Meta data for grade
+        """
         model = Grade
         fields = ['grade', 'student', 'course']
 
@@ -67,8 +107,16 @@ class GradeCreateForm(forms.ModelForm):
         self.fields['course'].widget.attrs['class'] = 'uk-select'
         self.fields['student'].widget = forms.HiddenInput()
 
+
 class GradeUpdateForm(forms.ModelForm):
+    """
+    Form to update the grade
+    """
+
     class Meta:
+        """
+        Meta data for grade
+        """
         model = Grade
         fields = ['grade', 'student', 'course']
 
