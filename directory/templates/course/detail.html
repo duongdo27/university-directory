@@ -5,6 +5,7 @@
     <a class="uk-align-right" uk-tooltip="Edit" href="{% url 'course_update' course.id %}"><span uk-icon="file-edit"></span></a>
     <a class="uk-align-right" uk-tooltip="Delete" href="{% url 'course_delete' course.id %}"><span uk-icon="minus-circle"></span></a>
 </h1>
+<h2>Average grade in course:  {{ course.gpa }}</h2>
 
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
 {% for grade in course.grades %}

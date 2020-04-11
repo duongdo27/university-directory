@@ -7,6 +7,8 @@ Collection of all models used in university directory app
 from django.db import models
 from django.core.validators import RegexValidator
 
+from directory.utils import calculate_gpa
+
 
 class Department(models.Model):
     """
@@ -53,6 +55,13 @@ class Course(models.Model):
         """
         return Grade.objects.filter(course=self)
 
+    @property
+    def gpa(self):
+        """
+        :return: gpa of a student
+        """
+        return calculate_gpa(map(str, self.grades))
+
 
 STUDENT_YEARS = (
     ("Freshman", "Freshman"),
@@ -77,9 +86,16 @@ class Student(models.Model):
     @property
     def grades(self):
         """
-        :return: all students
+        :return: all grades of a student
         """
         return Grade.objects.filter(student=self)
+
+    @property
+    def gpa(self):
+        """
+        :return: gpa of a student
+        """
+        return calculate_gpa(map(str, self.grades))
 
 
 LETTER_GRADES = (
