@@ -6,6 +6,8 @@ URLs for University app
 from django.urls import path
 
 from directory import views
+from directory import api
+
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
@@ -95,4 +97,16 @@ urlpatterns = [
         'grade_delete/<int:pk>',
         views.GradeDeleteView.as_view(),
         name='grade_delete'),
+    path('api/course_list',
+         api.CourseListAPIView.as_view(),
+         name='api_course_list'),
+    path('api/course_grades',
+         api.CourseGradesAPIView.as_view(),
+         name='api_course_grades'),
+    path('api/student_list',
+         api.StudentListAPIView.as_view(),
+         name='api_student_list'),
+    path('api/student_grades',
+         api.StudentGradesAPIView.as_view(),
+         name='api_student_grades')
 ]
