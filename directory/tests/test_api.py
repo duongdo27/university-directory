@@ -1,6 +1,9 @@
 """
 Test all APIs
 """
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=no-member
+
 from rest_framework.test import APITestCase
 
 from directory.models import Student
@@ -20,15 +23,15 @@ class BaseTest(APITestCase):
         """
         self.department2 = Department.objects.create(name="Computer")
         self.department1 = Department.objects.create(name="History")
-        self.professor1 = Professor.objects.create(first_name="John",
-                                                   last_name="Doe",
-                                                   email="jdoe@yahoo.com",
-                                                   phone="012345678",
-                                                   department=self.department1)
         self.professor2 = Professor.objects.create(first_name="Jane",
                                                    last_name="Do",
                                                    email="jdo@yahoo.com",
                                                    phone="0123456789",
+                                                   department=self.department1)
+        self.professor1 = Professor.objects.create(first_name="John",
+                                                   last_name="Doe",
+                                                   email="jdoe@yahoo.com",
+                                                   phone="012345678",
                                                    department=self.department1)
         self.course1 = Course.objects.create(name="HIS111",
                                              description="Intro to History",
@@ -159,3 +162,106 @@ class StudentGradesAPIViewTest(BaseTest):
                 'grade': "A",
             },
         ])
+
+
+class UpdateGradeAPIViewTest(BaseTest):
+    """
+    Test update grade view
+    """
+    def test_no_grade(self):
+        """
+        Test no grade given
+        """
+        data = {"first_name": "Alan", "last_name": "Smith", "course": "HIS111"}
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_no_student(self):
+        """
+        Test no student given
+        """
+        data = {"grade": "C", "course": "HIS111"}
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_no_course(self):
+        """
+        Test no course given
+        """
+        data = {"first_name": "Alan", "last_name": "Smith", "grade": "C"}
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_not_found_student(self):
+        """
+        Test not found student
+        """
+        data = {
+            "grade": "C",
+            "first_name": "Hello",
+            "last_name": "Smith",
+            "course": "HIS111"
+        }
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 404)
+
+    def test_not_found_course(self):
+        """
+        Test not found course
+        """
+        data = {
+            "grade": "C",
+            "first_name": "Alan",
+            "last_name": "Smith",
+            "course": "HIS114"
+        }
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_existing_grade(self):
+        """
+        Test updating existing grade
+        """
+        data = {
+            "grade": "C",
+            "first_name": "Alan",
+            "last_name": "Smith",
+            "course": "HIS111"
+        }
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {"message": "OK"})
+        self.grade.refresh_from_db()
+        self.assertEqual(self.grade.grade, 'C')
+
+    def test_create_new_grade(self):
+        """
+        Test create new grade
+        """
+        data = {
+            "grade": "C",
+            "first_name": "Harry",
+            "last_name": "Pogba",
+            "course": "HIS111"
+        }
+        response = self.client.post('/api/update_grade',
+                                    data=data,
+                                    format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {"message": "OK"})
+        new_grade = Grade.objects.filter(student=self.student2,
+                                         course=self.course1,
+                                         grade='C').first()
+        self.assertIsNotNone(new_grade)

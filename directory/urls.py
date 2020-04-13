@@ -86,5 +86,8 @@ urlpatterns = [
          name='api_student_list'),
     path('api/student_grades',
          api.StudentGradesAPIView.as_view(),
-         name='api_student_grades')
+         name='api_student_grades'),
+    path('api/update_grade',
+         api.UpdateGradeAPIView.as_view(),
+         name='api_update_grade'),
 ]

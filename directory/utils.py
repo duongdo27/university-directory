@@ -1,6 +1,7 @@
 """
 Contains all utility functions
 """
+# pylint: disable=inconsistent-return-statements
 
 GPA = {'A': 4, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
 

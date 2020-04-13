@@ -17,7 +17,7 @@ class DepartmentTest(TestCase):
         Test calculate gpa
         """
         letter_grades = ['A', 'C', 'B', 'D']
-        self.assertEquals(calculate_gpa(letter_grades), 2.5)
+        self.assertEqual(calculate_gpa(letter_grades), 2.5)
 
     def test_empty(self):
         """
