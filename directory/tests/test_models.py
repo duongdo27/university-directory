@@ -16,33 +16,29 @@ class BaseTest(TestCase):
     """
     Base test to set up all models
     """
-
     def setUp(self):
         self.department = Department.objects.create(name="History")
-        self.professor = Professor.objects.create(
-            first_name="John",
-            last_name="Doe",
-            email="jdoe@yahoo.com",
-            phone="012345678",
-            department=self.department)
-        self.course = Course.objects.create(
-            name="HIS111",
-            description="Intro to history",
-            professor=self.professor)
-        self.student = Student.objects.create(
-            first_name="Alan",
-            last_name="Smith",
-            email="as@yahoo.com",
-            year="Sophomore")
-        self.grade = Grade.objects.create(
-            grade="A", course=self.course, student=self.student)
+        self.professor = Professor.objects.create(first_name="John",
+                                                  last_name="Doe",
+                                                  email="jdoe@yahoo.com",
+                                                  phone="012345678",
+                                                  department=self.department)
+        self.course = Course.objects.create(name="HIS111",
+                                            description="Intro to history",
+                                            professor=self.professor)
+        self.student = Student.objects.create(first_name="Alan",
+                                              last_name="Smith",
+                                              email="as@yahoo.com",
+                                              year="Sophomore")
+        self.grade = Grade.objects.create(grade="A",
+                                          course=self.course,
+                                          student=self.student)
 
 
 class DepartmentTest(BaseTest):
     """
     Test department model
     """
-
     def test_string_representation(self):
         """
         Test department name
@@ -54,7 +50,6 @@ class ProfessorTest(BaseTest):
     """
     Test professor model
     """
-
     def test_string_representation(self):
         """
         Test professor name
@@ -66,7 +61,6 @@ class CourseTest(BaseTest):
     """
     Test course model
     """
-
     def test_string_representation(self):
         """
         Test course name
@@ -78,7 +72,6 @@ class StudentTest(BaseTest):
     """
     Test student model
     """
-
     def test_string_representation(self):
         """
         Test student name
@@ -90,7 +83,6 @@ class GradeTest(BaseTest):
     """
     Test grade model
     """
-
     def test_string_representation(self):
         """
         Test grade value

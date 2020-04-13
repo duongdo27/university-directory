@@ -254,8 +254,8 @@ class GradeUpdateView(UpdateView):
     form_class = GradeUpdateForm
 
     def get_success_url(self):
-        return reverse_lazy(
-            'student_detail', kwargs={'pk': self.object.student.id})
+        return reverse_lazy('student_detail',
+                            kwargs={'pk': self.object.student.id})
 
 
 class GradeCreateView(CreateView):
@@ -268,19 +268,19 @@ class GradeCreateView(CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['student'] = get_object_or_404(
-            Student, pk=self.kwargs["student_id"])
+        initial['student'] = get_object_or_404(Student,
+                                               pk=self.kwargs["student_id"])
         return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['student'] = get_object_or_404(
-            Student, pk=self.kwargs["student_id"])
+        context['student'] = get_object_or_404(Student,
+                                               pk=self.kwargs["student_id"])
         return context
 
     def get_success_url(self):
-        return reverse_lazy(
-            'student_detail', kwargs={'pk': self.object.student.id})
+        return reverse_lazy('student_detail',
+                            kwargs={'pk': self.object.student.id})
 
 
 class GradeDeleteView(DeleteView):
@@ -291,5 +291,5 @@ class GradeDeleteView(DeleteView):
     model = Grade
 
     def get_success_url(self):
-        return reverse_lazy(
-            'student_detail', kwargs={'pk': self.object.student.id})
+        return reverse_lazy('student_detail',
+                            kwargs={'pk': self.object.student.id})

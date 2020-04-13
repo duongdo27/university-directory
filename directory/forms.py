@@ -16,7 +16,6 @@ class DepartmentForm(forms.ModelForm):
     """
     Form to create new department
     """
-
     class Meta:
         """
         Meta data for department
@@ -33,7 +32,6 @@ class ProfessorForm(forms.ModelForm):
     """
     Form to create new professor
     """
-
     class Meta:
         """
         Meta data for professor
@@ -54,7 +52,6 @@ class CourseForm(forms.ModelForm):
     """
     Form to create new course
     """
-
     class Meta:
         """
         Meta data for course
@@ -73,7 +70,6 @@ class StudentForm(forms.ModelForm):
     """
     Form to create new student
     """
-
     class Meta:
         """
         Meta data for student
@@ -93,7 +89,6 @@ class GradeCreateForm(forms.ModelForm):
     """
     Form to create new grade
     """
-
     class Meta:
         """
         Meta data for grade
@@ -112,7 +107,6 @@ class GradeUpdateForm(forms.ModelForm):
     """
     Form to update the grade
     """
-
     class Meta:
         """
         Meta data for grade

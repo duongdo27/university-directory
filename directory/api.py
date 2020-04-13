@@ -13,14 +13,12 @@ from directory.models import Student
 class CourseListAPIView(APIView):
     def get(self, request):
         courses = Course.objects.all()
-        data = [
-            {'name': course.name,
-             'professor': str(course.professor),
-             'description': course.description,
-             'gpa': course.gpa,
-             }
-            for course in courses
-        ]
+        data = [{
+            'name': course.name,
+            'professor': str(course.professor),
+            'description': course.description,
+            'gpa': course.gpa,
+        } for course in courses]
         return Response(data)
 
 
@@ -32,27 +30,22 @@ class CourseGradesAPIView(APIView):
 
         course = get_object_or_404(Course, name=name)
         grades = course.grades
-        data =[
-            {
-             'student': str(grade.student),
-             'grade': grade.grade,
-             }
-            for grade in grades
-        ]
+        data = [{
+            'student': str(grade.student),
+            'grade': grade.grade,
+        } for grade in grades]
         return Response(data)
 
 
 class StudentListAPIView(APIView):
     def get(self, request):
         students = Student.objects.all()
-        data = [
-            {'name': str(student),
-             'email': student.email,
-             'year': student.year,
-             'gpa': student.gpa,
-             }
-            for student in students
-        ]
+        data = [{
+            'name': str(student),
+            'email': student.email,
+            'year': student.year,
+            'gpa': student.gpa,
+        } for student in students]
         return Response(data)
 
 
@@ -64,13 +57,12 @@ class StudentGradesAPIView(APIView):
         if not first_name or not last_name:
             raise ParseError('No first_name  or last_name provided')
 
-        student = get_object_or_404(Student, first_name=first_name, last_name=last_name)
+        student = get_object_or_404(Student,
+                                    first_name=first_name,
+                                    last_name=last_name)
         grades = student.grades
-        data =[
-            {
-             'course': str(grade.course),
-             'grade': grade.grade,
-             }
-            for grade in grades
-        ]
+        data = [{
+            'course': str(grade.course),
+            'grade': grade.grade,
+        } for grade in grades]
         return Response(data)

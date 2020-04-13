@@ -11,5 +11,8 @@ def calculate_gpa(letter_grades):
     :return: gpa
     """
     number_grades = [GPA.get(x, 0) for x in letter_grades]
+    if len(number_grades) == 0:
+        return
+
     gpa = sum(number_grades) / len(number_grades)
     return round(gpa, 2)

@@ -58,7 +58,6 @@ class BaseTest(TestCase):
     """
     Base test to set up all models
     """
-
     def setUp(self):
         """
         Set up all models
@@ -67,43 +66,39 @@ class BaseTest(TestCase):
 
         self.department1 = Department.objects.create(name="History")
         self.department2 = Department.objects.create(name="Computer")
-        self.professor1 = Professor.objects.create(
-            first_name="John",
-            last_name="Doe",
-            email="jdoe@yahoo.com",
-            phone="012345678",
-            department=self.department1)
-        self.professor2 = Professor.objects.create(
-            first_name="Jane",
-            last_name="Do",
-            email="jdo@yahoo.com",
-            phone="0123456789",
-            department=self.department1)
-        self.course1 = Course.objects.create(
-            name="HIS111",
-            description="Intro to History",
-            professor=self.professor1)
-        self.course2 = Course.objects.create(
-            name="CS111", description="Intro to CS", professor=self.professor2)
-        self.student1 = Student.objects.create(
-            first_name="Alan",
-            last_name="Smith",
-            email="as@yahoo.com",
-            year="Sophomore")
-        self.student2 = Student.objects.create(
-            first_name="Harry",
-            last_name="Pogba",
-            email="hp@yahoo.com",
-            year="Junior")
-        self.grade = Grade.objects.create(
-            grade="A", course=self.course1, student=self.student1)
+        self.professor1 = Professor.objects.create(first_name="John",
+                                                   last_name="Doe",
+                                                   email="jdoe@yahoo.com",
+                                                   phone="012345678",
+                                                   department=self.department1)
+        self.professor2 = Professor.objects.create(first_name="Jane",
+                                                   last_name="Do",
+                                                   email="jdo@yahoo.com",
+                                                   phone="0123456789",
+                                                   department=self.department1)
+        self.course1 = Course.objects.create(name="HIS111",
+                                             description="Intro to History",
+                                             professor=self.professor1)
+        self.course2 = Course.objects.create(name="CS111",
+                                             description="Intro to CS",
+                                             professor=self.professor2)
+        self.student1 = Student.objects.create(first_name="Alan",
+                                               last_name="Smith",
+                                               email="as@yahoo.com",
+                                               year="Sophomore")
+        self.student2 = Student.objects.create(first_name="Harry",
+                                               last_name="Pogba",
+                                               email="hp@yahoo.com",
+                                               year="Junior")
+        self.grade = Grade.objects.create(grade="A",
+                                          course=self.course1,
+                                          student=self.student1)
 
 
 class IndexViewTest(BaseTest):
     """
     Test the application home page view
     """
-
     def test(self):
         """
         Test if home page render correctly
@@ -118,7 +113,6 @@ class DepartmentListViewTest(BaseTest):
     """
     Test the department home page view
     """
-
     def test(self):
         """
         Test if department home page render correctly
@@ -128,23 +122,22 @@ class DepartmentListViewTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Departments", response.content)
         self.assertIn(b"History", response.content)
-        self.assertEqual(
-            list(response.context_data['departments']),
-            [self.department2, self.department1])
+        self.assertEqual(list(response.context_data['departments']),
+                         [self.department2, self.department1])
 
 
 class DepartmentDetailViewTest(BaseTest):
     """
     Test the department detail page view
     """
-
     def test(self):
         """
         Test if department detail page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            DepartmentDetailView, request, kwargs={"pk": self.department1.id})
+        response = _get_response(DepartmentDetailView,
+                                 request,
+                                 kwargs={"pk": self.department1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Department History", response.content)
         self.assertIn(b"Doe, John", response.content)
@@ -157,7 +150,6 @@ class DepartmentCreateViewTest(BaseTest):
     """
     Test the department create page view
     """
-
     def test_get(self):
         """
         Test if department create page render correctly
@@ -182,22 +174,22 @@ class DepartmentCreateViewTest(BaseTest):
         self.assertIsNotNone(new_department)
         self.assertEqual(
             response.url,
-            reverse_lazy(
-                'department_detail', kwargs={'pk': new_department.id}))
+            reverse_lazy('department_detail', kwargs={'pk':
+                                                      new_department.id}))
 
 
 class DepartmentUpdateViewTest(BaseTest):
     """
     Test the department update page view
     """
-
     def test_get(self):
         """
         Test if department update page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            DepartmentUpdateView, request, kwargs={'pk': self.department2.id})
+        response = _get_response(DepartmentUpdateView,
+                                 request,
+                                 kwargs={'pk': self.department2.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Update Department", response.content)
         self.assertIn(b"Name", response.content)
@@ -209,13 +201,14 @@ class DepartmentUpdateViewTest(BaseTest):
         Test if information to update department post successfully
         """
         request = self.factory.post('', data={'name': 'World'})
-        response = _get_response(
-            DepartmentUpdateView, request, kwargs={'pk': self.department2.id})
+        response = _get_response(DepartmentUpdateView,
+                                 request,
+                                 kwargs={'pk': self.department2.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse_lazy(
-                'department_detail', kwargs={'pk': self.department2.id}))
+            reverse_lazy('department_detail',
+                         kwargs={'pk': self.department2.id}))
         self.department2.refresh_from_db()
         self.assertEqual(self.department2.name, 'World')
 
@@ -224,14 +217,14 @@ class DepartmentDeleteViewTest(BaseTest):
     """
     Test the department delete page view
     """
-
     def test_get(self):
         """
         Test if department delete page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            DepartmentDeleteView, request, kwargs={'pk': self.department2.id})
+        response = _get_response(DepartmentDeleteView,
+                                 request,
+                                 kwargs={'pk': self.department2.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Delete Department", response.content)
         self.assertIn(b"Are you sure you want to delete", response.content)
@@ -243,8 +236,9 @@ class DepartmentDeleteViewTest(BaseTest):
         Test if information to delete department post successfully
         """
         request = self.factory.post('')
-        response = _get_response(
-            DepartmentDeleteView, request, kwargs={'pk': self.department2.id})
+        response = _get_response(DepartmentDeleteView,
+                                 request,
+                                 kwargs={'pk': self.department2.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse_lazy('department_list'))
         self.assertEqual(len(Department.objects.filter(name='Computer')), 0)
@@ -254,7 +248,6 @@ class ProfessorListViewTest(BaseTest):
     """
     Test the professor home page view
     """
-
     def test(self):
         """
         Test if professor home page render correctly
@@ -264,23 +257,22 @@ class ProfessorListViewTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Doe, John", response.content)
         self.assertIn(b"Do, Jane", response.content)
-        self.assertEqual(
-            list(response.context_data['professors']),
-            [self.professor2, self.professor1])
+        self.assertEqual(list(response.context_data['professors']),
+                         [self.professor2, self.professor1])
 
 
 class ProfessorDetailViewTest(BaseTest):
     """
     Test the professor detail page view
     """
-
     def test(self):
         """
         Test if professor detail page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            ProfessorDetailView, request, kwargs={"pk": self.professor1.id})
+        response = _get_response(ProfessorDetailView,
+                                 request,
+                                 kwargs={"pk": self.professor1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Doe, John", response.content)
         self.assertIn(b"HIS111", response.content)
@@ -292,7 +284,6 @@ class ProfessorCreateViewTest(BaseTest):
     """
     Test the professor create page view
     """
-
     def test_get(self):
         """
         Test if professor create page render correctly
@@ -313,15 +304,14 @@ class ProfessorCreateViewTest(BaseTest):
         """
         Test if information to create professor post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'first_name': 'Alex',
-                'last_name': 'Smith',
-                'email': 'as@yahoo.com',
-                'phone': '47298374',
-                'department': self.department1.id
-            })
+        request = self.factory.post('',
+                                    data={
+                                        'first_name': 'Alex',
+                                        'last_name': 'Smith',
+                                        'email': 'as@yahoo.com',
+                                        'phone': '47298374',
+                                        'department': self.department1.id
+                                    })
         response = _get_response(ProfessorCreateView, request)
         self.assertEqual(response.status_code, 302)
 
@@ -336,14 +326,14 @@ class ProfessorUpdateViewTest(BaseTest):
     """
     Test the professor update page view
     """
-
     def test_get(self):
         """
         Test if professor update page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            ProfessorUpdateView, request, kwargs={'pk': self.professor2.id})
+        response = _get_response(ProfessorUpdateView,
+                                 request,
+                                 kwargs={'pk': self.professor2.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Update Professor", response.content)
         self.assertIn(b"First name", response.content)
@@ -358,22 +348,22 @@ class ProfessorUpdateViewTest(BaseTest):
         """
         Test if information to update professor post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'first_name': 'Janey',
-                'last_name': 'Do',
-                'email': 'jdo@yahoo.com',
-                'phone': '0123456789',
-                'department': self.department1.id
-            })
-        response = _get_response(
-            ProfessorUpdateView, request, kwargs={'pk': self.professor2.id})
+        request = self.factory.post('',
+                                    data={
+                                        'first_name': 'Janey',
+                                        'last_name': 'Do',
+                                        'email': 'jdo@yahoo.com',
+                                        'phone': '0123456789',
+                                        'department': self.department1.id
+                                    })
+        response = _get_response(ProfessorUpdateView,
+                                 request,
+                                 kwargs={'pk': self.professor2.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
-            reverse_lazy(
-                'professor_detail', kwargs={'pk': self.professor2.id}))
+            reverse_lazy('professor_detail', kwargs={'pk':
+                                                     self.professor2.id}))
         self.professor2.refresh_from_db()
         self.assertEqual(self.professor2.first_name, 'Janey')
 
@@ -382,14 +372,14 @@ class ProfessorDeleteViewTest(BaseTest):
     """
     Test the professor delete page view
     """
-
     def test_get(self):
         """
         Test if professor delete page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            ProfessorDeleteView, request, kwargs={'pk': self.professor2.id})
+        response = _get_response(ProfessorDeleteView,
+                                 request,
+                                 kwargs={'pk': self.professor2.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Delete Professor", response.content)
         self.assertIn(b"Are you sure you want to delete", response.content)
@@ -401,19 +391,19 @@ class ProfessorDeleteViewTest(BaseTest):
         Test if information to delete professor post successfully
         """
         request = self.factory.post('')
-        response = _get_response(
-            ProfessorDeleteView, request, kwargs={'pk': self.professor2.id})
+        response = _get_response(ProfessorDeleteView,
+                                 request,
+                                 kwargs={'pk': self.professor2.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse_lazy('professor_list'))
-        self.assertEqual(
-            len(Professor.objects.filter(email='jdo@yahoo.com')), 0)
+        self.assertEqual(len(Professor.objects.filter(email='jdo@yahoo.com')),
+                         0)
 
 
 class CourseListViewTest(BaseTest):
     """
     Test the course home page view
     """
-
     def test(self):
         """
         Test if course home page render correctly
@@ -424,23 +414,22 @@ class CourseListViewTest(BaseTest):
         self.assertIn(b"Course", response.content)
         self.assertIn(b"HIS111", response.content)
         self.assertIn(b"CS111", response.content)
-        self.assertEqual(
-            list(response.context_data['courses']),
-            [self.course2, self.course1])
+        self.assertEqual(list(response.context_data['courses']),
+                         [self.course2, self.course1])
 
 
 class CourseDetailViewTest(BaseTest):
     """
     Test the course detail page view
     """
-
     def test(self):
         """
         Test if course detail page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            CourseDetailView, request, kwargs={"pk": self.course1.id})
+        response = _get_response(CourseDetailView,
+                                 request,
+                                 kwargs={"pk": self.course1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Smith, Alan", response.content)
         self.assertIn(b"as@yahoo.com", response.content)
@@ -452,7 +441,6 @@ class CourseCreateViewTest(BaseTest):
     """
     Test the course create page view
     """
-
     def test_get(self):
         """
         Test if course create page render correctly
@@ -471,13 +459,12 @@ class CourseCreateViewTest(BaseTest):
         """
         Test if information to create course post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'name': 'CS200',
-                'description': 'Data Structure',
-                'professor': self.professor2.id
-            })
+        request = self.factory.post('',
+                                    data={
+                                        'name': 'CS200',
+                                        'description': 'Data Structure',
+                                        'professor': self.professor2.id
+                                    })
         response = _get_response(CourseCreateView, request)
         self.assertEqual(response.status_code, 302)
 
@@ -492,14 +479,14 @@ class CourseUpdateViewTest(BaseTest):
     """
     Test the course update page view
     """
-
     def test_get(self):
         """
         Test if course update page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            CourseUpdateView, request, kwargs={'pk': self.course1.id})
+        response = _get_response(CourseUpdateView,
+                                 request,
+                                 kwargs={'pk': self.course1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Edit Course", response.content)
         self.assertIn(b"Name", response.content)
@@ -512,15 +499,15 @@ class CourseUpdateViewTest(BaseTest):
         """
         Test if information to update course post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'name': 'HIS111',
-                'description': 'World history',
-                'professor': self.professor1.id
-            })
-        response = _get_response(
-            CourseUpdateView, request, kwargs={'pk': self.course1.id})
+        request = self.factory.post('',
+                                    data={
+                                        'name': 'HIS111',
+                                        'description': 'World history',
+                                        'professor': self.professor1.id
+                                    })
+        response = _get_response(CourseUpdateView,
+                                 request,
+                                 kwargs={'pk': self.course1.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
@@ -533,14 +520,14 @@ class CourseDeleteViewTest(BaseTest):
     """
     Test the course delete page view
     """
-
     def test_get(self):
         """
         Test if course delete page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            CourseDeleteView, request, kwargs={'pk': self.course1.id})
+        response = _get_response(CourseDeleteView,
+                                 request,
+                                 kwargs={'pk': self.course1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Delete Course", response.content)
         self.assertIn(b"Are you sure you want to delete", response.content)
@@ -552,8 +539,9 @@ class CourseDeleteViewTest(BaseTest):
         Test if information to delete course post successfully
         """
         request = self.factory.post('')
-        response = _get_response(
-            CourseDeleteView, request, kwargs={'pk': self.course1.id})
+        response = _get_response(CourseDeleteView,
+                                 request,
+                                 kwargs={'pk': self.course1.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse_lazy('course_list'))
         self.assertEqual(len(Course.objects.filter(name='HIS111')), 0)
@@ -563,7 +551,6 @@ class StudentListViewTest(BaseTest):
     """
     Test the student home page view
     """
-
     def test(self):
         """
         Test if student home page render correctly
@@ -574,23 +561,22 @@ class StudentListViewTest(BaseTest):
         self.assertIn(b"Students", response.content)
         self.assertIn(b"Pogba, Harry", response.content)
         self.assertIn(b"Smith, Alan", response.content)
-        self.assertEqual(
-            list(response.context_data['students']),
-            [self.student2, self.student1])
+        self.assertEqual(list(response.context_data['students']),
+                         [self.student2, self.student1])
 
 
 class StudentDetailViewTest(BaseTest):
     """
     Test the student detail page view
     """
-
     def test(self):
         """
         Test if student detail page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            StudentDetailView, request, kwargs={"pk": self.student1.id})
+        response = _get_response(StudentDetailView,
+                                 request,
+                                 kwargs={"pk": self.student1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Student Smith, Alan", response.content)
         self.assertIn(b"as@yahoo.com", response.content)
@@ -603,7 +589,6 @@ class StudentCreateViewTest(BaseTest):
     """
     Test the student create page view
     """
-
     def test_get(self):
         """
         Test if student create page render correctly
@@ -623,15 +608,14 @@ class StudentCreateViewTest(BaseTest):
         """
         Test if information to create student post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'first_name': 'John',
-                'last_name': 'Martial',
-                'email': 'jm@yahoo.com',
-                'phone': '8345903248',
-                'year': 'Senior'
-            })
+        request = self.factory.post('',
+                                    data={
+                                        'first_name': 'John',
+                                        'last_name': 'Martial',
+                                        'email': 'jm@yahoo.com',
+                                        'phone': '8345903248',
+                                        'year': 'Senior'
+                                    })
         response = _get_response(StudentCreateView, request)
         self.assertEqual(response.status_code, 302)
         new_student = Student.objects.filter(email='jm@yahoo.com').first()
@@ -645,14 +629,14 @@ class StudentUpdateViewTest(BaseTest):
     """
     Test the student update page view
     """
-
     def test_get(self):
         """
         Test if student update page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            StudentUpdateView, request, kwargs={'pk': self.student1.id})
+        response = _get_response(StudentUpdateView,
+                                 request,
+                                 kwargs={'pk': self.student1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Update Student", response.content)
         self.assertIn(b"First name", response.content)
@@ -666,16 +650,16 @@ class StudentUpdateViewTest(BaseTest):
         """
         Test if information to update student post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'first_name': 'Tony',
-                'last_name': 'Smith',
-                'email': 'as@yahoo.com',
-                'year': self.student1.year
-            })
-        response = _get_response(
-            StudentUpdateView, request, kwargs={'pk': self.student1.id})
+        request = self.factory.post('',
+                                    data={
+                                        'first_name': 'Tony',
+                                        'last_name': 'Smith',
+                                        'email': 'as@yahoo.com',
+                                        'year': self.student1.year
+                                    })
+        response = _get_response(StudentUpdateView,
+                                 request,
+                                 kwargs={'pk': self.student1.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
@@ -688,14 +672,14 @@ class StudentDeleteViewTest(BaseTest):
     """
     Test the student delete page view
     """
-
     def test_get(self):
         """
         Test if student delete page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            StudentDeleteView, request, kwargs={'pk': self.student1.id})
+        response = _get_response(StudentDeleteView,
+                                 request,
+                                 kwargs={'pk': self.student1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Delete Student", response.content)
         self.assertIn(b"Are you sure you want to delete", response.content)
@@ -707,8 +691,9 @@ class StudentDeleteViewTest(BaseTest):
         Test if information to delete student post successfully
         """
         request = self.factory.post('')
-        response = _get_response(
-            StudentDeleteView, request, kwargs={'pk': self.student1.id})
+        response = _get_response(StudentDeleteView,
+                                 request,
+                                 kwargs={'pk': self.student1.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse_lazy('student_list'))
         self.assertEqual(len(Student.objects.filter(email='as@yahoo.com')), 0)
@@ -718,14 +703,14 @@ class GradeCreateViewTest(BaseTest):
     """
     Test the grade create page view
     """
-
     def test_get(self):
         """
         Test if grade create page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            GradeCreateView, request, kwargs={'student_id': self.student1.id})
+        response = _get_response(GradeCreateView,
+                                 request,
+                                 kwargs={'student_id': self.student1.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Smith, Alan", response.content)
         self.assertIn(b"Grade", response.content)
@@ -737,20 +722,20 @@ class GradeCreateViewTest(BaseTest):
         """
         Test if information to create grade post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'grade': 'D',
-                'course': self.course2.id,
-                'student': self.student1.id
-            })
+        request = self.factory.post('',
+                                    data={
+                                        'grade': 'D',
+                                        'course': self.course2.id,
+                                        'student': self.student1.id
+                                    })
 
-        response = _get_response(
-            GradeCreateView, request, kwargs={'student_id': self.student1.id})
+        response = _get_response(GradeCreateView,
+                                 request,
+                                 kwargs={'student_id': self.student1.id})
         self.assertEqual(response.status_code, 302)
 
-        new_grade = Grade.objects.filter(
-            student=self.student1, course=self.course2).first()
+        new_grade = Grade.objects.filter(student=self.student1,
+                                         course=self.course2).first()
         self.assertIsNotNone(new_grade)
         self.assertEqual(
             response.url,
@@ -761,14 +746,14 @@ class GradeUpdateViewTest(BaseTest):
     """
     Test the grade update page view
     """
-
     def test_get(self):
         """
         Test if grade update page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            GradeUpdateView, request, kwargs={'pk': self.grade.id})
+        response = _get_response(GradeUpdateView,
+                                 request,
+                                 kwargs={'pk': self.grade.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Update Grade", response.content)
         self.assertIn(b"Grade", response.content)
@@ -781,15 +766,15 @@ class GradeUpdateViewTest(BaseTest):
         """
         Test if information to update grade post successfully
         """
-        request = self.factory.post(
-            '',
-            data={
-                'grade': 'B',
-                'course': self.course1.id,
-                'student': self.student1.id
-            })
-        response = _get_response(
-            GradeUpdateView, request, kwargs={'pk': self.grade.id})
+        request = self.factory.post('',
+                                    data={
+                                        'grade': 'B',
+                                        'course': self.course1.id,
+                                        'student': self.student1.id
+                                    })
+        response = _get_response(GradeUpdateView,
+                                 request,
+                                 kwargs={'pk': self.grade.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
@@ -802,14 +787,14 @@ class GradeDeleteViewTest(BaseTest):
     """
     Test the grade delete page view
     """
-
     def test_get(self):
         """
         Test if grade delete page render correctly
         """
         request = self.factory.get('')
-        response = _get_response(
-            GradeDeleteView, request, kwargs={'pk': self.grade.id})
+        response = _get_response(GradeDeleteView,
+                                 request,
+                                 kwargs={'pk': self.grade.id})
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Delete Grade", response.content)
         self.assertIn(b"Are you sure you want to delete", response.content)
@@ -821,13 +806,14 @@ class GradeDeleteViewTest(BaseTest):
         Test if information to delete grade post successfully
         """
         request = self.factory.post('')
-        response = _get_response(
-            GradeDeleteView, request, kwargs={'pk': self.grade.id})
+        response = _get_response(GradeDeleteView,
+                                 request,
+                                 kwargs={'pk': self.grade.id})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
             response.url,
             reverse_lazy('student_detail', kwargs={'pk': self.student1.id}))
         self.assertEqual(
             len(
-                Grade.objects.filter(
-                    course=self.course1, student=self.student1)), 0)
+                Grade.objects.filter(course=self.course1,
+                                     student=self.student1)), 0)
